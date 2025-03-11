@@ -1,0 +1,28 @@
+import cv2
+import matplotlib.pyplot as plt
+
+# Load image
+image = cv2.imread("cat.jpeg")
+
+# Check if image is loaded correctly
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to RGB for visualization
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Create T-pyramid (Gaussian Pyramid)
+pyramid_levels = [image_rgb]
+for i in range(4):  # Create 4 levels
+    image_rgb = cv2.pyrDown(image_rgb)
+    pyramid_levels.append(image_rgb)
+
+# Display Pyramid Levels
+fig, ax = plt.subplots(1, 5, figsize=(20, 5))
+for i, img in enumerate(pyramid_levels):
+    ax[i].imshow(img)
+    ax[i].set_title(f"Level {i}")
+    ax[i].axis("off")
+
+plt.show()
