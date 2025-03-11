@@ -1,0 +1,45 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load an image
+image = cv2.imread("cat.jpeg")
+
+# Check if image is loaded correctly
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to HSV color space
+hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+# Define color range (Red example)
+lower_bound = np.array([0, 120, 70])
+upper_bound = np.array([10, 255, 255])
+
+# Create mask
+mask = cv2.inRange(hsv, lower_bound, upper_bound)
+
+# Bitwise-AND mask and original image
+result = cv2.bitwise_and(image, image, mask=mask)
+
+# Convert from BGR to RGB for Matplotlib
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+result_rgb = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
+
+# Display results using Matplotlib
+fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+
+ax[0].imshow(image_rgb)
+ax[0].set_title("Original Image")
+ax[0].axis("off")
+
+ax[1].imshow(mask, cmap="gray")
+ax[1].set_title("Mask")
+ax[1].axis("off")
+
+ax[2].imshow(result_rgb)
+ax[2].set_title("Color Detection")
+ax[2].axis("off")
+
+plt.show()
