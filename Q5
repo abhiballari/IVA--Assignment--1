@@ -1,0 +1,32 @@
+import cv2
+import matplotlib.pyplot as plt
+
+# Load Haar cascade for face detection
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+# Load image
+image = cv2.imread("face.jpg")
+
+# Check if image is loaded correctly
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Detect faces
+faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+# Draw rectangles around detected faces
+for (x, y, w, h) in faces:
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+# Convert to RGB for visualization
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Display result
+plt.imshow(image_rgb)
+plt.title("Face Detection")
+plt.axis("off")
+plt.show()
