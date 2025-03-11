@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load image
+image = cv2.imread("cat.jpeg")
+
+# Check if image is loaded correctly
+if image is None:
+    print("Error: Image not found!")
+    exit()
+
+# Convert to RGB
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Apply Gaussian Blur
+blurred = cv2.GaussianBlur(image_rgb, (15, 15), 0)
+
+# Display images
+fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+ax[0].imshow(image_rgb)
+ax[0].set_title("Original Image")
+ax[0].axis("off")
+
+ax[1].imshow(blurred)
+ax[1].set_title("Smoothed Image (Gaussian Blur)")
+ax[1].axis("off")
+
+plt.show()
